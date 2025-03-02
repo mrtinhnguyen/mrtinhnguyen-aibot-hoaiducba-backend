@@ -15,7 +15,7 @@ def find_answer(user_question):
     return get_openai_response(user_question)
 
 def get_openai_response(question):
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4o",
         messages=[{"role": "user", "content": question}],
         response_format={
