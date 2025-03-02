@@ -16,16 +16,19 @@ def find_answer(user_question):
     return get_openai_response(user_question)
 
 def get_openai_response(question):
-    response = client.chat.completions.create(
-        model="gpt-4o",
-        messages=[{"role": "user", "content": question}],
-        response_format={
-        "type": "text"
-    },
-    temperature=1,
-    max_completion_tokens=2048,
-    top_p=1,
-    frequency_penalty=0,
-    presence_penalty=0
-    )
-    return response["choices"][0]["message"]["content"]
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "user", "content": question}],
+            response_format={
+            "type": "text"
+        },
+        temperature=1,
+        max_completion_tokens=2048,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0
+        )
+        return response["choices"][0]["message"]["content"]
+    except openai.error.RateLimitError:
+        return "Hệ thống đang quá tải, vui lòng thử lại sau."
