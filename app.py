@@ -24,8 +24,8 @@ def chat():
                 return jsonify({"error": "Thiếu message!"}), 400
         user_message = data.get("message", "")
         
-        if not user_message:
-            return jsonify({"reply": "Xin lỗi, tôi không hiểu câu hỏi của bạn."})
+        //if not user_message:
+        //    return jsonify({"reply": "Xin lỗi, tôi không hiểu câu hỏi của bạn."})
         response_text = find_answer(user_message)
         return jsonify({"reply": response_text})
     
