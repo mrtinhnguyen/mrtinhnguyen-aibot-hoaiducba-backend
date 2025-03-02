@@ -12,10 +12,6 @@ FAQ_DATA = load_faq()
 
 def find_answer(user_question):
     """Tìm câu trả lời từ FAQ trước, nếu không có thì dùng OpenAI"""
-    for entry in FAQ_DATA:
-        if entry["cau_hoi"].lower() in user_question.lower():
-            return entry["tra_loi"]
-
     return get_openai_response(user_question)
 
 def get_openai_response(question):
