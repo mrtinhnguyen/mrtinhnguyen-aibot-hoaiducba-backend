@@ -1,8 +1,10 @@
 import json
 import openai
-from config import OPENAI_API_KEY
+from config import GEMINI_API_KEY
+import google.generativeai as genai
 
-client = openai.OpenAI(api_key=OPENAI_API_KEY)
+# Khởi tạo Google Gemini API
+genai.configure(api_key=GEMINI_API_KEY)
 
 def load_faq():
     """Load dữ liệu FAQ từ JSON"""
@@ -12,23 +14,13 @@ def load_faq():
 FAQ_DATA = load_faq()
 
 def find_answer(user_question):
-    """Tìm câu trả lời từ FAQ trước, nếu không có thì dùng OpenAI"""
-    return get_openai_response(user_question)
+    """Tìm câu trả lời từ FAQ trước, nếu không có thì dùng Google Gemini"""
+    return get_gemini_response(user_question)
 
-def get_openai_response(question):
+def get_gemini_response(question):
     try:
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": question}],
-            response_format={
-            "type": "text"
-        },
-        temperature=1,
-        max_completion_tokens=2048,
-        top_p=1,
-        frequency_penalty=0,
-        presence_penalty=0
-        )
-        return response["choices"][0]["message"]["content"]
-    except openai.error.RateLimitError:
-        return "Hệ thống đang quá tải, vui lòng thử lại sau."
+        model = genai.GenerativeModel("gemini-pro")  # Chọn model phù hợp
+        response = model.generate_content(question)
+        return response.text  # Trả về nội dung phản hồi từ Gemini
+    except Exception as e:
+        return f"Lỗi khi gọi Gemini: {str(e)}"
