@@ -19,7 +19,7 @@ def find_answer(user_question):
 
 def get_gemini_response(question):
     try:
-        model = genai.GenerativeModel("gemini-pro")  # Chọn model phù hợp
+        model = genai.GenerativeModel(model_name="models/gemini-pro")
         response = model.generate_content(question)
         return response.text  # Trả về nội dung phản hồi từ Gemini
     except Exception as e:
