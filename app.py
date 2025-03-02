@@ -11,6 +11,11 @@ def home():
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json()
+    app.logger.debug(f"Dữ liệu nhận được: {data} (Loại: {type(data)})")
+    if not isinstance(data, dict):  # Nếu data không phải dictionary, trả về lỗi
+            return jsonify({"error": "Dữ liệu không hợp lệ"}), 400;
+    if "message" not in data:
+            return jsonify({"error": "Thiếu message!"}), 400
     user_message = data.get("message", "")
     
     if not user_message:
