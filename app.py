@@ -13,7 +13,10 @@ def home():
 @app.route("/chat", methods=["POST"])
 def chat():
     try:
-        data = request.get_json()
+        raw_data = request.data.decode("utf-8")  # Lấy dữ liệu thô
+        app.logger.debug(f"📥 Dữ liệu gốc: {raw_data}")
+
+        data = request.get_json(silent=True)
         app.logger.debug(f"Dữ liệu nhận được: {data} (Loại: {type(data)})")
         if not isinstance(data, dict):  # Nếu data không phải dictionary, trả về lỗi
                 return jsonify({"error": "Dữ liệu không hợp lệ"}), 400;
