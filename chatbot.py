@@ -2,8 +2,8 @@ import json
 import openai
 from config import OPENAI_API_KEY
 
-openai.api_key = OPENAI_API_KEY
-client = openai()
+client = openai.OpenAI(api_key=OPENAI_API_KEY)
+
 def load_faq():
     """Load dữ liệu FAQ từ JSON"""
     with open("FAQ.json", "r", encoding="utf-8") as file:
