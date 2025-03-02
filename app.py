@@ -15,8 +15,9 @@ def chat():
     try:
         raw_data = request.data.decode("utf-8")  # Lấy dữ liệu thô
         app.logger.debug(f"📥 Dữ liệu gốc: {raw_data}")
-
+        
         data = request.get_json(silent=True)
+        print("Received data:", data)  # Debug
         app.logger.debug(f"Dữ liệu nhận được: {data} (Loại: {type(data)})")
         if not isinstance(data, dict):  # Nếu data không phải dictionary, trả về lỗi
                 return jsonify({"error": "Dữ liệu không hợp lệ"}), 400;
